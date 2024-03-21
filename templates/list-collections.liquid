@@ -1,0 +1,75 @@
+{% for col in linklists.colors.links %}
+{% assign collection = col.object%}
+{% unless collection.products == empty %}
+{% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+{% liquid 
+  case collection.handle 
+    when "red"
+      assign bgclass = "bg-wu-red"
+    when "green"
+      assign bgclass = "bg-wu-green"
+    when "blue"
+      assign bgclass = "bg-wu-blue-alt"
+    when "turquoise"
+      assign bgclass = "bg-wu-turquoise"
+    when "black"
+      assign bgclass = "bg-wu-black"
+    when "white"
+      assign bgclass = "bg-wu-white"
+  endcase
+%}
+<div class="p-[20px] md:p-[40px] grid md:grid-cols-2 xbg-wu-{{collection.handle}} {{bgclass}}">
+  {% if collection.image %}
+  <div class="col-span-full w-full pb-12">
+    <img class="object-fill" src="{{ collection.image | img_url: 'x2048' }}"
+      srcset="{% render 'attr-srcset', image:collection.image, widths:'400,600,800,1000,1200,1400,1600,1800,2400,3200' %}"
+      sizes="96vw">
+  </div>
+  {% endif %}
+
+  {% for product in collection.products limit:48 %}
+  {%liquid
+  assign title_color = product.title | split: " " | last
+  assign plain_title = product.title | remove: title_color | trim
+  assign theimage = product.featured_image
+  for image in product.images
+    if image.src contains "_bycol."
+      assign theimage = image
+    endif
+  endfor
+  %}
+  <div
+    class="grid grid-rows-[1fr,auto] relative w-full p-0 odd:pl-24 even:pr-24 odd:md:pl-0 even:md:pr-0  card-index-{{ forloop.index0|modulo:7 }}"
+    x-data="{vis:false}">
+    <div class="absolute top-1/2" x-mintersect.in="vis=true" x-mintersect.out="vis=false"
+      data-handle="{{product.handle}}"></div>
+
+    <div class="w-full grid place-items-center image">
+
+      <div class="group">
+        <figure class="overflow-hidden">
+          <a href="{{ product.url | within: collection }}"><img src="{{ theimage.src | img_url: '400x500', crop: 'center' }}" src="{{ theimage.src | img_url: '400x500', crop: 'center' }}"
+            srcset="{%render 'attr-srcset', image:theimage, widths:'400,600,800,1000,1200', crop: 'center', aspect_ratio: '4:5' %}"
+            sizes="(min-width:768px) 50vw, 80vw" alt="{{ theimage.alt | escape }}" loading="lazy" alt="" class="group-hover:scale-110 transition-transform duration-500" /></a>
+        </figure>
+        <p class="w-full text-center p-4 pb-8 sm:pb-4 text-contrasting font-sans text-[16px] lg:text-[20px]"><a href="{{ product.url | within: collection }}" class="border-b-2 border-transparent group-hover:border-current">{{plain_title}}</a></p>
+      </div>
+      {% comment %}
+      <a href="{{ product.url | within: collection }}">
+        <div class="overflow-hidden w-full h-full">
+          <img :xclass="{'scale-110 sm:scale-100' : vis}" class="object-fill group-hover:scale-110 transition-transform duration-500"
+            src="{{ theimage.src | img_url: '400x500', crop: 'center' }}"
+            srcset="{%render 'attr-srcset', image:theimage, widths:'400,600,800,1000,1200', crop: 'center', aspect_ratio: '4:5' %}"
+            sizes="(min-width:768px) 50vw, 80vw" alt="{{ theimage.alt | escape }}" loading="lazy">
+        </div>
+      </a>
+      <div class="w-full text-center p-4 pb-8 sm:pb-4 text-contrasting font-sans text-[16px] lg:text-[20px]">
+        <a href="{{ product.url | within: collection }}" class="group-hover:border-b-2 border-current">{{plain_title}}</a>
+      </div>
+      {% endcomment %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endunless %}
+{% endfor %}

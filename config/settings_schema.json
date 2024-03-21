@@ -1,0 +1,128 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Themekit template theme",
+    "theme_version": "1.0.0",
+    "theme_author": "Shopify",
+    "theme_documentation_url": "https:\/\/github.com\/Shopify\/themekit",
+    "theme_support_url": "https:\/\/github.com\/Shopify\/themekit\/issues"
+  },
+  {
+    "name": "Fonts",
+    "settings": [
+      {
+        "label": "Body Font",
+        "id": "body_font",
+        "type": "font_picker",
+        "default": "helvetica_n4"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "label": "WU Main",
+        "id": "color_nav",
+        "type": "color",
+        "default": "#2000CD"
+      },
+      {
+        "label": "WU Text",
+        "id": "color_text",
+        "type": "color",
+        "default": "#FFFFFF"
+      },
+      {
+        "label": "Red",
+        "id": "color_red",
+        "type": "color",
+        "default": "#DD343B"
+      },
+      {
+        "label": "Green",
+        "id": "color_green",
+        "type": "color",
+        "default": "#009444"
+      },
+      {
+        "label": "Blue",
+        "id": "color_blue",
+        "type": "color",
+        "default": "#0A6BFF"
+      },
+      {
+        "label": "Blue Alt",
+        "id": "color_blue_alt",
+        "type": "color",
+        "default": "#2F31B5"
+      },
+      {
+        "label": "Yellow",
+        "id": "color_yellow",
+        "type": "color",
+        "default": "#FBCC03"
+      },
+      {
+        "label": "Turquoise",
+        "id": "color_turquoise",
+        "type": "color",
+        "default": "#00A0F8"
+      },
+      {
+        "label": "Brown",
+        "id": "color_brown",
+        "type": "color",
+        "default": "#D6C8AB"
+      },
+      {
+        "label": "Gray",
+        "id": "color_gray",
+        "type": "color",
+        "default": "#BBBBBB"
+      },
+      {
+        "label": "White",
+        "id": "color_white",
+        "type": "color",
+        "default": "#FFFFFF"
+      },
+      {
+        "label": "Black",
+        "id": "color_black",
+        "type": "color",
+        "default": "#000000"
+      }
+    ]
+  },
+  {
+    "name": "Splashes",
+    "settings": [
+      {
+        "label": "Fav Icon",
+        "id": "favicon",
+        "type": "image_picker"
+      },
+      {
+        "label": "Desktop Splash",
+        "id": "desktop_splash",
+        "type": "image_picker"
+      },
+      {
+        "label": "Mobile Splash",
+        "id": "mobile_splash",
+        "type": "image_picker"
+      },
+      {
+        "label": "Splash Desktop Video",
+        "id": "splash_mobile_desktop",
+        "type": "video"
+      },
+      {
+        "label": "Splash Mobile Video",
+        "id": "splash_mobile_video",
+        "type": "video"
+      }
+    ]
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "current": {
+    "body_font": "open_sans_condensed_n7",
+    "color_nav": "#ffffff",
+    "color_text": "#2000cd",
+    "color_red": "#ce1a21",
+    "color_green": "#03915f",
+    "color_blue": "#2000cd",
+    "color_turquoise": "#03a1ec",
+    "color_gray": "#eeeeee",
+    "color_white": "#ffffff",
+    "color_black": "#2e292f",
+    "favicon": "shopify:\/\/shop_images\/wu-icon.png",
+    "desktop_splash": "shopify:\/\/shop_images\/e0a7b7087b6c5052a2be7075a65014b9_66aebe9b-a5b8-45ac-ae7b-cc4bae776944.jpg",
+    "mobile_splash": "shopify:\/\/shop_images\/be2b223e5dd44be45a54d1ecc766be6c_8e78fa96-e5db-496d-a56f-bacbd4710a73.jpg",
+    "splash_mobile_desktop": "shopify:\/\/files\/videos\/desktop_f7696f2a-463f-4910-b999-78e0a2723f3d.mp4",
+    "splash_mobile_video": "shopify:\/\/files\/videos\/mobile.mp4",
+    "checkout_logo_image": "shopify:\/\/shop_images\/A.B.Uniform_Square_Logo_White.svg",
+    "checkout_logo_position": "left",
+    "checkout_logo_size": "large",
+    "checkout_body_background_color": "#2000cd",
+    "checkout_input_background_color_mode": "white",
+    "checkout_sidebar_background_color": "#ffffff",
+    "checkout_heading_font": "Open Sans",
+    "checkout_body_font": "Garamond, Baskerville, 'Baskerville Old Face', 'Hoefler Text', 'Times New Roman'",
+    "checkout_accent_color": "#eeeeee",
+    "checkout_button_color": "#009444",
+    "content_for_index": []
+  },
+  "presets": {
+    "Default": {}
+  }
+}

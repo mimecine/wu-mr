@@ -1,0 +1,40 @@
+<header class="bg-wu-nav sticky z-50 top-0 w-full text-white text-xl uppercase" x-data="{open:false}">
+    <div class="grid grid-cols-2 sm:grid-cols-3 place-items-center">
+    
+      <nav class="hidden sm:block justify-self-start">
+          <ul class="menu flex items-center h-full">
+            {% for link in linklists.main-menu-left.links %}
+              <li class="inline n1 md:p-2"><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+      </nav>
+      <div class="flex items-center justify-self-start sm:justify-self-center">
+          <a href="/" class="leading-none main-logo">
+                <svg viewBox="0 0 271 27" class="fill-current text-white h-[26px] lg:h-[26px]">
+                  <use class="fill-current" href="#logo" />
+                </svg>
+            </a>
+      </div>
+      <nav class="hidden sm:block justify-self-end">
+          <ul class="menu flex items-center h-full">
+            {% for link in linklists.main-menu-right.links %}
+              <li class="inline n1 md:p-2"><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+      </nav>
+
+      <nav class="sm:hidden justify-self-end" x-cloak>
+        <span @click="open = ! open" @keyup.escape.window="open = false" x-text="open?'close':'menu'" class="select-none cursor-pointer"></span>
+    </nav>
+    </div>
+
+    <div x-show="open" class="mobile_menu_contents fixed top-0 z-[-10] w-full pt-20 pb-2 top-0 bg-wu-nav" x-cloak>
+      <ul class="">
+        {% assign menu_links = linklists.main-menu-left.links | concat: linklists.main-menu-right.links %}
+        {% for link in  menu_links %}
+          <li class="py-1"><a href="{{ link.url }}" class="p-2">{{ link.title }}</a></li>
+        {% endfor %}
+      </ul>    
+  </div>
+
+</header>

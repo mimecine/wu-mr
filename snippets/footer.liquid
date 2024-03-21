@@ -1,0 +1,24 @@
+<footer class=" bg-wu-nav pt-4 p-[20px] md:p-[40px] border-t border-wu-gray">
+    <div class="flex flex-wrap place-content-center justify-between md:grid md:grid-cols-3 text-wu-text">
+      <div class="ig grid items-center">
+        <span><a href="https://instagram.com/ab.uniform" class="border-0 hover:border-b-2 border-wu-text xborder-dashed">Instagram</a></span>
+      </div>
+      <div class="blurb font-serif p-[20px] order-last md:order-none col-span-2 md:col-span-1 text-center text-[16px] w-full">
+        Tough, tender, timeless
+      </div>
+      <div class="contact text-right grid items-center">
+        <span><a href="mailto:{{shop.email}}" class="border-0 hover:border-b-2 border-wu-text xborder-dashed">{{shop.email}}</a></span>
+      </div>
+    </div>
+
+    <div class="rule border border-0 border-b-2 border-dashed border-wu-text w-full pt-[20px]"></div>
+
+    <div class="grid place-items-center pt-[35px]">
+        <a href="/" class="leading-none main-logo">
+          <svg viewBox="0 0 271 27" class="fill-current text-white h-[26px] lg:h-[26px]">
+            <use class="fill-current" href="#logo" />
+          </svg>
+         </a>
+         <p class="text-[12px] lg:text-[16px] text-wu-text pt-[20px]">&copy; {{shop.name}} <span x-data="" x-text="(new Date()).getFullYear()">....</span></p>
+    </div>
+</footer>

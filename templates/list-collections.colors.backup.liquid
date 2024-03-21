@@ -1,0 +1,41 @@
+{% for col in linklists.colors.links %}
+{% assign collection = col.object %}
+  {% unless collection.products == empty %}
+    {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+    <div class="p-2 md:p-8 grid md:grid-cols-2 bg-wu-{{ collection.handle }}">
+      {% if collection.image %}
+        <div class="col-span-full w-full p-4">
+          <img class="object-fill mix-blend-luminosity" src="{{ collection.image | image_url: height: 2048 }}">
+        </div>
+      {% endif %}
+
+    {% for product in collection.products limit: 48 %}
+      <div class="relative w-full p-4 {% cycle '', '', 'md:col-span-2' %}" x-data="{vis:false}">
+        <div class="absolute top-1/2" x-mintersect.in="vis=true" x-mintersect.out="vis=false" data-handle="{{ product.handle }}"></div>
+        <!-- <a href="{{ product.url | within: collection }}">{{ product.title }}</a> -->
+        <!-- {{ product.price | money }}
+        {% unless product.available %}<br><strong>sold out</strong>{% endunless %} -->
+        {%liquid 
+          assign theimage = product.featured_image
+          for image in product.images 
+            if image.src contains "_bycol"
+              assign theimage = image
+            endif
+          endfor
+        %}
+        {% assign title_color = product.title | split: " " | last %}
+        {% assign plain_title = product.title | remove: title_color | trim %}
+
+        <div class="w-full grid place-items-center">
+          <a href="{{ product.url | within: collection }}" class="">
+            <img :class="vis ? 'rounded-wu sm:rounded-none' : ''" class="shadow transition duration-400 transition-border-radius hover:rounded-wu {% cycle 'object-right-top', 'object-left-bottom', 'object-left-top' %} object-contain" src="{{ theimage.src | image_url: width: 480, height: 480 }}" alt="{{ theimage.alt | escape }}" loading="lazy">
+          </a>  
+        </div>
+        <div class="w-full text-center p-4 text-contrasting">
+          <a href="{{ product.url | within: collection }}">{{ plain_title }}</a>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    {% endunless %}
+{% endfor %}

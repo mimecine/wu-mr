@@ -1,0 +1,42 @@
+<section>
+  <div class="absolute w-screen h-screen inset-0 z-[99]  pointer-events-none">
+    {%- liquid
+      if settings.splash_mobile_video and settings.splash_mobile_desktop
+        assign media = settings.splash_mobile_video
+        echo media | video_tag: autoplay: true, loop: true, controls: false, muted: true, image_size: '3600x', class: 'block md:hidden object-cover w-screen h-screen'
+
+        assign media = settings.splash_mobile_desktop
+        echo media | video_tag: autoplay: true, loop: true, controls: false, muted: true, image_size: '3600x', class: 'hidden md:block object-cover w-screen h-screen'
+      else
+        assign media = settings.mobile_splash
+        echo media | image_url: width: 3600 | image_tag: sizes: '100vw', class: 'grid md:hidden object-cover w-screen h-screen', preload: true
+
+        assign media = settings.desktop_splash
+        echo media | image_url: width: 3600 | image_tag: sizes: '100vw', class: 'hidden md:block object-cover w-screen h-screen', preload: true
+      endif
+    -%}
+  </div>
+  <div class="absolute w-screen h-screen inset-0 z-[100] text-wu-red uppercase text-2xl">
+    <div class="w-screen h-1/4 hidden sm:grid grid-cols-2 sm:grid-cols-3 place-items-center">
+      <a href="/collections/clothing" class="text-[36px] tracking-widest leading-none hover:text-wu-white">Shop</a>
+
+      <span class="leading-none main-logo text-wu-blue order-first sm:order-none col-span-2 sm:col-span-1">
+        <a href="/collections/clothing"><svg viewBox="0 0 171 27" fill="none" x-xmlns="http://www.w3.org/2000/svg" class="fill-current text-current h-[56px] lg:h-[84px]">
+          <use class="fill-current" href="#logo" />
+        </svg></a>
+      </span>
+
+      <a href="/blogs/bulletin" class="text-[36px] tracking-widest leading-none hover:text-wu-white">About</a>
+    </div>
+
+    <div class="w-full h-1/4 p-[20px] sm:hidden">
+      <svg class="w-full text-wu-blue">
+        <use class="fill-current" href="#logo" />
+      </svg>
+      <div class="flex justify-between text-wu-white text-[36px] tracking-widest leading-none">
+        <a href="/collections/clothing" class="hover:text-wu-blue">SHOP</a>
+        <a href="/blogs/bulletin" class="hover:text-wu-blue">ABOUT</a>
+      </div>
+    </div>
+  </div>
+</section>

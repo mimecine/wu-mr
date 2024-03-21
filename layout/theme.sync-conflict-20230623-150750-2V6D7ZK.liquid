@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+  <title>{{ page_title }}</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="{{ page_description | escape }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+  {% assign menu_links = linklists.main-menu-left.links | concat: linklists.main-menu-right.links %}
+  {% for link in  menu_links %}
+    <link rel="prefetch" href="{{ link.url }}">
+  {% endfor %}
+  {% if settings.favicon %}
+  <link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 100, height: 100 }}">
+  {% endif %}
+<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <style>
+    [x-cloak]{display:none !important;}
+  </style>
+  {{ content_for_header }} <!-- Header hook for plugins -->
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  {{ 'fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'application.css' | asset_url | stylesheet_tag }}
+  {{ 'application.js' | asset_url | script_tag }}
+  {{ 'theme-cart.js' | asset_url | script_tag }}
+  {{ 'smoothscroll.min.js' | asset_url | script_tag }}
+  {% comment %} {{ 'alpinejs.cdn.min.js' | asset_url | script_tag }} {% endcomment %}
+  <script defer src="{{ 'alpinejs.cdn.min.js' | asset_url }}" type="text/javascript"></script>
+  
+  {% comment %} <script defer src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> {% endcomment %}
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3GNZJH3YQV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3GNZJH3YQV');
+</script>
+</head>
+
+<body class="template-{{ template.name }} suffix-{{ template.suffix }} tag-{{ product.tags | join: ' tag-' }} min-h-screen grid grid-pancake font-sans">
+  {% liquid
+    unless template.name == "index"
+      render 'header' 
+    endunless
+  %}
+  <main role="main" class="bg-wu-gray w-full h-full">
+    {{ content_for_layout }}
+  </main>
+
+  {% liquid
+    unless template.name == "index"
+      render 'footer'
+      render 'cart-slideout' 
+      render 'svg-defs' 
+    endunless
+    render 'svg-defs' 
+  %}
+  </body>
+</html>

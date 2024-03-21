@@ -1,0 +1,48 @@
+{% for col in linklists.colors.links %}
+{% assign collection = col.object%}
+  {% unless collection.products == empty %}
+    {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+    <div class="p-2 md:p-8 grid md:grid-cols-2 bg-wu-{{collection.handle}}">
+      {% if collection.image %}
+        <div class="col-span-full w-full p-4">
+          <img class="object-fill" 
+            src="{{ collection.image | img_url: 'x2048' }}"
+            srcset="{% render 'attr-srcset', image:collection.image, widths:'400,600,800,1000,1200,1400,1600,1800,2400,3200' %}"
+            sizes="96vw"
+          >
+        </div>
+      {% endif %}
+
+    {% for product in collection.products limit:48 %}
+    {%liquid 
+      assign title_color = product.title | split: " " | last
+      assign plain_title = product.title | remove: title_color | trim
+      assign theimage = product.featured_image
+      for image in product.images 
+        if image.src contains "_bycol."
+          assign theimage = image
+        endif
+      endfor
+    %}
+      <div class="relative w-full p-4 odd:pl-12 even:pr-12 md:odd:pl-4 md:even:pr-4  card-index-{{ forloop.index0|modulo:7 }}" x-data="{vis:false}">
+        <div class="absolute top-1/2" x-mintersect.in="vis=true" x-mintersect.out="vis=false" data-handle="{{product.handle}}"></div>
+
+        <div class="w-full grid place-items-center image">
+          <a href="{{ product.url | within: collection }}" class="">
+            <img :class="vis ? 'rounded-wu sm:rounded-none' : ''" 
+              class="shadow transition duration-400 transition-border-radius hover:rounded-wu 
+              {% cycle 'object-right-top', 'object-left-bottom', 'object-left-top'%} object-contain" 
+              src="{{ theimage.src | img_url: '400x500', crop: 'center' }}"
+              srcset="{%render 'attr-srcset', image:theimage, widths:'400,600,800,1000,1200', crop: 'center', aspect_ratio: '5:4' %}"
+              sizes="(min-width:768px) 45vw, 90vw" 
+              alt="{{ theimage.alt | escape }}" loading="lazy">
+          </a>  
+        </div>
+        <div class="w-full text-center p-4 text-contrasting font-sans text-[16px] lg:text-[20px]">
+          <a href="{{ product.url | within: collection }}">{{plain_title}}</a>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    {% endunless %}
+{% endfor %}

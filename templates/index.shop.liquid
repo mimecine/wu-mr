@@ -1,0 +1,35 @@
+<!-- <div class="absolute top-0 h-screen w-screen bg-red-200 z-[100]" >
+  <img src="{{ 'wagner_splash.jpg' | asset_img_url: 'original' }}" class="object-fill">
+</div> -->
+<section class="grid md:grid-cols-3 gap-0">
+  {% for product in collections.frontpage.products limit: 48 %}
+    {% assign remainder = forloop.length | modulo: 3 %}
+    <div class="grid bg-wu-gray relative group">
+  
+      {% comment %}
+      {{ product.price | money }}
+      {% unless product.available %}<br><strong>sold out</strong>{% endunless %}
+      {% endcomment %}
+      {%liquid 
+        assign theimage = product.featured_image
+        for image in product.images 
+          if image.src contains "_front"
+            assign theimage = image
+          endif
+        endfor
+      %}
+  
+      <a href="{{ product.url | within: collection }}" class="w-full block relative">
+        <div class="aspect-h-1 aspect-w-1 tag-{{ product.tags | join: ' tag-' }}">
+          <img class="object-cover object-center p-0" src="{{ theimage.src | image_url: width: 1024, height: 1024 }}" alt="{{ theimage.alt | escape }}" loading="lazy">
+        </div>
+      </a>
+      <a class="md:opacity-0 group-hover:opacity-100 text-gray-50 font-bold text-center absolute w-full bottom-0 p-4 block contrast-{{ product.tags | join: ' contrast-' }}" href="{{ product.url | within: collection }}">{{ product.title }}</a>
+  
+    </div>
+  {% endfor %}
+  {% for i in (remainder..2) %}
+    <div class="hidden md:grid items-center justify-center  {% cycle 'bg': 'bg-purple-400', 'bg-green-200', 'bg-blue-700' %} text-5xl {% cycle 'col': 'text-red-500', 'text-blue-500' %} font-black"> {% cycle 'shape': '&squ;', '&CircleMinus;' %}</div>
+  {% endfor %}
+  </section>
+  

@@ -1,0 +1,68 @@
+<header class="bg-wu-nav sticky z-50 top-0 w-full text-wu-text text-xl uppercase h-[70px] font-sans border-b border-wu-gray" x-data="{open:false}">
+    <div class="grid grid-cols-2 md:grid-cols-3 h-full place-items-center">
+    
+      <nav class="hidden md:block justify-self-start px-[10px] md:px-[20px] h-full">
+          <ul class="menu flex items-center h-full">
+            {% for link in linklists.main-menu-left.links %}
+              <li class="inline n1 px-[10px] md:px-[20px] h-full grid place-items-center">
+                <a href="{{ link.url }}" class="mt-[7px] border-b-2 border-transparent hover:border-wu-text xborder-dashed">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+      </nav>
+      <div class="flex items-center justify-self-start sm:justify-self-center px-[20px]">
+          <a href="/" class="leading-none main-logo">
+              <svg viewBox="0 0 271 27" class="fill-current text-white h-[26px] lg:h-[26px]">
+                <use class="fill-current" href="#logo" />
+              </svg>
+          </a>
+      </div>
+      <nav class="hidden md:block justify-self-start px-[10px] md:px-[20px] h-full justify-self-end">
+          <ul class="menu flex items-center h-full">
+            {% for link in linklists.main-menu-right.links %}
+              <li class="inline n1 px-[10px] md:px-[20px] h-full grid place-items-center">
+                <a href="{{ link.url }}" class="mt-[7px] border-b-2 border-transparent hover:border-wu-text xborder-dashed">{{ link.title }}</a></li>
+            {% endfor %}
+              <li class="inline px-[10px] md:px-[20px] h-full grid place-items-center" x-data="{usedKeyboard: false, open: false}" :class="{'xlink-current':open}">
+                <button
+                xx-cloak
+                class="relative mt-[7px] border-b-2 border-transparent hover:border-wu-text xborder-dashed
+                before:absolute xbefore:-top-2 before:left-full xbefore:text-xs before:content-[attr(data-count)]"
+                @keydown.window.tab="usedKeyboard = true"
+                @click="open =! open; $dispatch('toggle-cart-drawer', { open : open });"
+                :class="{'focus:outline-none': !usedKeyboard, 'border-wu-text': open}"
+                :data-count="$store.Cart.state.item_count>0?`&nbsp;(${$store.Cart.state.item_count})`:''"
+                >
+                CART
+              </button>
+          
+              </li>
+          </ul>
+      </nav>
+
+      <nav class="md:hidden justify-self-end px-[20px] mt-[6px] text-[18px] leading-none" x-cloak>
+        <span @click="open = ! open" @keyup.escape.window="open = false" x-text="open?'close':'menu'" 
+        class="select-none cursor-pointer mt-[3px]"></span>
+      </nav>
+    </div>
+
+    <div x-show="open" class="mobile_menu_contents fixed top-0 z-[-10] w-full pt-20 pb-2 px-[20px] top-0 bg-wu-nav text-[18px]" x-cloak>
+      <ul class="">
+        {% assign menu_links = linklists.main-menu-left.links | concat: linklists.main-menu-right.links %}
+        {% for link in  menu_links %}
+          <li class="py-[5px]"><a href="{{ link.url }}" class="">{{ link.title }}</a></li>
+        {% endfor %}
+        <li class="py-[5px] pb-[20px]">
+          <button class=""
+          x-data="{usedKeyboard: false}"
+          @keydown.window.tab="usedKeyboard = true"
+          @click="$dispatch('open-menu', { open: true }); open = false"
+          :class="{'focus:outline-none': !usedKeyboard}"                
+          x-show="$store.Cart.state.item_count > 0">
+          CART (<span x-text="$store.Cart.state.item_count"></span>)
+
+        </button>
+      </ul>    
+  </div>
+
+</header>

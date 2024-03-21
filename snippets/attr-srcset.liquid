@@ -1,0 +1,27 @@
+{%liquid 
+    assign widths_arr = widths|default:'400,600,800,1200,1800,2400'|split: ','
+    assign ratio = aspect_ratio | split: ':' 
+    assign wr = ratio|first|abs
+    assign hr = ratio|last|abs
+    for w in widths_arr
+        assign w0 = w | plus: 0
+         assign liquid_w = w | append: 'x'
+        if wr 
+          assign h = w0 | times: hr| divided_by: wr 
+          assign liquid_w = liquid_w | append: h
+          if h > 0 and image.height <= h 
+            break
+          endif 
+        endif 
+        assign html_w = w | append: 'w'
+        if image.width > w0
+
+            unless forloop.first 
+                echo ', '
+            endunless
+             
+            echo image.src | img_url: liquid_w, crop: crop, format: format | append: ' ' | append: html_w
+            
+        endif
+    endfor
+%}

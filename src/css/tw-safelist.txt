@@ -1,0 +1,6 @@
+odd:pl-12 
+even:pr-12 
+md:odd:pl-4 
+md:even:pr-4
+opacity-0
+transition-opacity

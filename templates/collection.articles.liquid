@@ -1,0 +1,42 @@
+
+<section class="bg-wu-white grid grid-flow-row text-wu-blue">
+  <div class="grid sm:grid-cols-2">
+    <div class="p-[20px] md:p-[40px]">
+      <!-- <h1 class="uppercase text-[16px] sm:text-[36px] tracking-[0.2em] pb-2">{{ collection.title }}</h1> -->
+      <div class="blog-description font-serif text-[25px] lg:text-[40px] leading-[35px] md:leading-[48px]">
+        {{ collection.description }}
+      </div>
+    </div>
+    <div class="bg-wu-blue aspect-h-3 aspect-w-3">
+      <img class="object-cover w-full" src="{{ collection.image | img_url: 'x2048' }}"
+      srcset="{% render 'attr-srcset', image:collection.image, widths:'400,600,800,1000,1200,1400,1600,1800,2400,3200' %}"
+      sizes="100vw">
+    </div>    
+
+  </div>
+  {% for article in collection.products %}
+
+  <div class="h-11 sm:h-24 border-wu-blue border-t sm:col-span-3"></div>
+  <article class="border-t border-wu-blue grid sm:grid-cols-3 last:sm:mb-24 last:sm:border-b">
+    <div class="w-full aspect-w-1 aspect-h-1 col-span-1">
+      <img class="object-cover w-full" src="{{ article.featured_image.src | img_url: 'x1600' }}"
+      srcset="{% render 'attr-srcset', image:article.featured_image, widths:'400,600,800,1000,1200,1400,1600,1800,2400,3200' %}"
+      sizes="100vw">
+    </div>
+    <div class="content sm:col-span-2 p-[40px] md:px-[25%] md:pt-[10%] md:pb-[5%]">
+      <h2 class="text-[30px] sm:text-[36px] tracking-[0.2em] uppercase">{{ article.title }}</h2>
+      {% if article.metafields.wagner.article_link_url %}
+      <h4 class="text-[16px] tracking-[0.2em]">
+        <a href="{{ article.metafields.wagner.article_link_url }}" class="hover:border-wu-blue border-transparent border-b-2">
+          {{ article.metafields.wagner.article_link_text | default: article.metafields.wagner.article_link_url }}
+        </a>
+      </h4>
+      {% endif %}
+      <div class="prose font-serif pt-[20px] text-[16px] lg:text-[16px] leading-[23px] md:leading-[27px] {%unless article.featured_image%} sm:columns-3 {% endunless%}">
+        {{article.description}}
+      </div>
+    </div>
+  </article>
+    
+  {% endfor %}
+</section>

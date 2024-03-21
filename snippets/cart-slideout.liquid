@@ -1,0 +1,116 @@
+<div x-cloak x-data="cartDrawer" @open-menu.window="open = $event.detail.open" @toggle-cart-drawer.window="open =! open"
+	@keydown.window.tab="usedKeyboard = true" @keydown.window.escape="open = false">
+	<div x-show.transition.opacity.duration.500="open" @click="open = false"
+		class="fixed inset-0 bg-wu-white opacity-50"></div>
+	<div class="fixed transition duration-150 right-0 top-0 transform w-full max-w-[600px] h-screen bg-wu-gray text-wu-blue overflow-hidden"
+		:class="{'translate-x-full': !open}">
+		<div class="pt-[70px] px-[20px] md:px-[40px] absolute top-0 h-full w-full overflow-y-scroll flex flex-col">
+
+			<div class="pt-[20px] md:pt-[40px] font-serif flex justify-between">
+				<h1 class="text-[14px]">Your Cart</h1>
+				<button @click="$dispatch('toggle-cart-drawer',{open:false})" x-ref="closeButton" class="font-sans text-[20px] tracking-wider"
+					:class="{'focus:outline-none': !usedKeyboard}">
+					<w-u class="border-b-2 border-transparent hover:border-current">Close</w-u>
+				</button>
+			</div>
+
+			<div x-cloak x-show="$store.Cart.items.length == 0 && $store.Cart.isLoading == false"
+				class="w-full h-full grid place-items-center text-2xl">
+				<button @click="open = false" class="font-sans ">Your cart is currently empty.</button>
+			</div>
+
+
+			<div x-cloak x-data x-show="$store.Cart.items.length > 0" class="xh-full flex flex-col flex-grow">
+
+				<div id="cartitems">
+					<template x-for="line in $store.Cart.items">
+						<div class="grid md:grid-cols-3 gap-[20px] pt-[20px] pb-[40px] border-b-2 border-dashed border-wu-blue">
+							<div class="thepicture"><a :href="`/products/${line.handle}`">
+									<div class="aspect-w-4 aspect-h-5">
+										<div class="w-full h-full">
+											<img class="w-full h-full object-cover"
+												:src="line.image.replace(/\.[a-z]{3,4}$/,'_400x.jpg')">
+										</div>
+									</div>
+								</a>
+							</div>
+
+							<div class="thecard md:col-span-2 flex flex-col justify-between h-full">
+								<div>
+									<a :href="`/products/${line.handle}`">
+										<h1 class="font-sans text-[30px] lg:text-[20px]"
+											x-text="line.product_title.replace(/ \w+$/,'')"></h1>
+										<h1 class="font-sans text-[20px] sm:text-[16px]"
+											x-text="`${line.product_title.split(' ').pop()} / ${line.variant_title}`">
+										</h1>
+										<h1 class="font-sans text-[20px] sm:text-[16px]" x-show="line.quantity > 1"
+											x-text="`${line.quantity} @ $${line.price/100}`"></h1>
+									</a>
+								</div>
+								<div class="flex flex-row justify-between items-center py-[20px] md:py-0">
+									<div>
+										
+										<div class="inline-flex px-3 py-1 pt-2 items-center text-[20px] tracking-wider leading-none text-wu-blue  border-wu-blue hover:text-wu-gray hover:bg-wu-blue  border-2 rounded-full">
+											<button @click="$store.Cart.removeItem(line.key)"
+											class="">Remove</button>
+										</div>
+										<div
+											class="inline-flex px-3 py-1 pt-2 border-2 border-current rounded-full text-[20px] tracking-wider leading-none">
+											<button @click="$store.Cart.setQuantity(line.key,line.quantity - 1)"
+												class="pr-2">&#65293;</button>
+											<span x-text="line.quantity" class="px-2"></span>
+											<button @click="$store.Cart.setQuantity(line.key,line.quantity + 1)"
+												class="pl-2">&#65291;</button>
+										</div>
+									</div>
+									<div x-text="`$${line.line_price/100}`" class="text-[20px] tracking-wider leading-none pt-1">
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</template>
+				</div>
+
+				<div id="cartinfo">
+					<div class="subtotal flex justify-between pt-4 text-[20px] tracking-wider">
+						<div class="font-serif text-[14px]">Subtotal</div>
+						<div x-text="`$${$store.Cart.state.items_subtotal_price/100}`"></div>
+					</div>
+					<div class="tax flex justify-between">
+						<div class="font-serif text-[14px]">Tax</div>
+						<div class="text-[20px]">Calculated at next step</div>
+					</div>
+					<div class="shipping flex justify-between">
+						<div class="font-serif text-[14px]">Shipping</div>
+						<div class="text-[20px]">Calculated at next step</div>
+					</div>
+				</div>
+
+				<div id="cartbuttons" class="flex flex-col justify-end flex-grow gap-[12px] mb-[80px] md:mb-0 pt-8 pb-[40px] md:pb-[40px]">
+					<form action="/cart" method="post" class="w-full">
+						<button
+							class="w-full mb-[10px] md:mb-0 p-2 border-2 rounded-3xl text-wu-blue  border-wu-blue hover:text-wu-gray hover:bg-wu-blue  "
+							type="submit" name="checkout">
+							<p class=" text-[20px] tracking-wider leading-none mt-[0.2em]">Checkout</p>
+						</button>
+					</form>
+					<button
+					class="w-full p-2 border-2 rounded-3xl text-wu-blue  border-wu-blue hover:text-wu-gray hover:bg-wu-blue  "
+					type="submit" name="checkout" @click="$dispatch('toggle-cart-drawer',{open:false})">
+						<p class=" text-[20px] tracking-wider leading-none mt-[0.2em]">Continue Shopping</p>
+					</button>
+				</div>
+
+			</div>
+		</div>
+
+		<div x-show="$store.Cart.isLoading"
+			class="fixed inset-0 bg-wu-gray opacity-75 flex justify-center items-center">
+			<div :class="{'animate-spin':open}" class="h-8 w-8 rounded-full border-b-2 border-wu-text"></div>
+		</div>
+
+	</div>
+
+</div>

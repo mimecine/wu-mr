@@ -1,0 +1,19 @@
+{% for collection in collections %}
+  {% unless collection.handle == 'frontpage' or collecions.handle == 'clothing' %}
+    {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+    <a href="{{ collection.url }}"> {{ collection_title }} : </a>
+    <div class="p-2 md:p-4" style="background-color: {{collection.handle}};">
+    {% for product in collection.products limit:48 %}
+      {% assign grid_item_width = 'large--one-fifth medium--one-half' %}
+      <div class="w-full">
+        <!-- <a href="{{ product.url | within: collection }}">{{ product.title }}</a> -->
+        <!-- {{ product.price | money }}
+        {% unless product.available %}<br><strong>sold out</strong>{% endunless %} -->
+        <a href="{{ product.url | within: collection }}">
+          <img class="{% cycle 'object-right-top', 'object-left-bottom', 'object-left-top'%} object-contain" src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+        </a>
+      </div>
+    {% endfor %}
+    </div>
+  {% endunless %}
+{% endfor %}

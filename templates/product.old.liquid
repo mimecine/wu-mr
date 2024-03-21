@@ -1,0 +1,225 @@
+{% liquid 
+  assign current_variant = product.selected_or_first_available_variant
+  assign featured_image = current_variant.featured_image | default: product.featured_image
+  assign title_color = product.title | split: " " | last
+  assign plain_title = product.title | remove: title_color | strip
+  assign base_col = product.handle | split: "-" | last
+  assign txclass = "text-wu-blue"
+  assign btbgclass = "bg-wu-blue"
+  assign arrowclass = "text-wu-white"
+
+  case base_col
+  when "red"
+    assign bgclass = "bg-wu-red"
+    assign bttxclass = "text-wu-red"
+    assign imgbgclass = "bg-wu-red"
+  when "crimson"
+    assign bgclass = "bg-wu-crimson"
+    assign bttxclass = "text-wu-crimson"
+    assign imgbgclass = "bg-wu-crimson"
+  when "green"
+    assign bgclass = "bg-wu-green"
+    assign bttxclass = "text-wu-green"
+    assign imgbgclass = "bg-wu-green"
+  when "blue"
+    assign bgclass = "bg-wu-blue"
+    assign bttxclass = "text-wu-blue"
+    assign imgbgclass = "bg-wu-blue-alt"
+  when "sky"
+    assign bgclass = "bg-wu-sky"
+    assign bttxclass = "text-wu-sky"
+    assign imgbgclass = "bg-wu-sky"
+  when "denim"
+    assign bgclass = "bg-wu-denim"
+    assign bttxclass = "text-wu-denim"
+    assign imgbgclass = "bg-wu-denim"
+  when "turquoise"
+    assign bgclass = "bg-wu-turquoise"
+    assign bttxclass = "text-wu-turquoise"
+    assign imgbgclass = "bg-wu-turquoise"
+  when "yellow"
+    assign bgclass = "bg-wu-yellow"
+    assign btbgclass = "bg-wu-blue"
+    assign imgbgclass = "bg-wu-yellow"
+    assign txclass = "text-wu-blue"
+    assign bttxclass = "text-wu-yellow"
+  when "black"
+    assign bgclass = "bg-wu-yellow"
+    assign btbgclass = "bg-wu-blue"
+    assign imgbgclass = "bg-wu-black"
+    assign txclass = "text-wu-blue"
+    assign bttxclass = "text-wu-yellow"
+  when "white"
+    assign bgclass = "bg-wu-yellow"
+    assign btbgclass = "bg-wu-blue"
+    assign imgbgclass = "bg-wu-white"
+    assign txclass = "text-wu-blue"
+    assign bttxclass = "text-wu-yellow"
+    assign arrowclass = "text-wu-blue"
+  endcase
+
+    assign bgclass = "bg-wu-white"
+    assign btbgclass = "bg-wu-blue"
+    assign txclass = "text-wu-blue"
+    assign bttxclass = "text-wu-white"
+
+  %}
+
+
+<div class="grid md:grid-cols-3" style="--base-col:{% unless base_col == 'white' %}{{base_col}}{% endunless %};">
+
+  <div class="md:col-span-2 order-1 md:order-2 relative h-[50vh] md:h-[calc(100vh-70px)] {{ imgbgclass }}" 
+  x-data="{all_left:true,all_right:false,pos:1,itemlen:0}" x-init="$nextTick(()=>{itemlen=$refs.slider.children.length})">
+    <div class="overflow-x-scroll w-full snap snap-x flex noscrollbar" x-ref="slider" @scroll="all_left=($event.target.scrollLeft==0);all_right=($event.target.scrollLeft+$event.target.clientWidth == $event.target.scrollWidth); pos=1+Math.round(($event.target.scrollLeft/$event.target.scrollWidth)/($event.target.clientWidth/$event.target.scrollWidth))">
+    {%- for image in product.images -%}{%- unless  
+      image.src contains "_xIllustration."  or 
+      image.src contains "_xillustration." or 
+      image.src contains "_front." or 
+      image.src contains "_bycol."
+      -%}
+      <div class="w-full md:w-full h-[50vh] md:h-[calc(100vh-70px)] snap-center flex-shrink-0 relative">
+
+        {{ image| image_url: width: 1600 
+                | image_tag: 
+                class: "w-screen md:w-[67vw] h-[50vh] md:h-[calc(100vh-70px)] object-contain py-[40px] px-[20px] md:p-[40px] transition-opacity duration-300 opacity-0",
+                widths: "400,600,800,1000,1200,1600,2400,3200",
+                sizes: "(min-width: 768px) 66vw, 96vw",
+                preload: true,
+                onload: 'this.classList.remove("opacity-0")'
+        }}
+
+      </div>
+  {%- endunless -%}{%- endfor -%}
+    </div>
+
+    <button class="absolute top-[calc(50%-1.25rem)] left-0 p-4 {{arrowclass}}" 
+      @click.prevent="$refs.slider.scrollBy({left:-$refs.slider.clientWidth,behavior:'smooth'});" 
+      @keyup.left.window="$refs.slider.scrollBy({left:-$refs.slider.clientWidth,behavior:'smooth'});"
+      :class="{'opacity-25': all_left }">
+      <svg class="fill-current h-6 w-6">
+        <use href="#arrow-left"></use>
+      </svg>
+    </button>
+
+    <button class="absolute top-[calc(50%-1.25rem)] right-0 p-4 {{arrowclass}}"  
+      @click.prevent="$refs.slider.scrollBy({left:$refs.slider.clientWidth,behavior:'smooth'});"
+      @keyup.right.window="$refs.slider.scrollBy({left:$refs.slider.clientWidth,behavior:'smooth'});"
+      :class="{'opacity-25':all_right}" >             
+      <svg class="fill-current h-6 w-6 rotate-180">
+        <use href="#arrow-left"></use>
+      </svg>
+    </button>
+    <span class="absolute bottom-[10px] left-[20px] sm:text-[20px] {{arrowclass}}"  x-text="`${pos}/${itemlen}`"></span>
+    
+
+</div>
+  
+
+<div class="{{ bgclass }} {{ txclass }} md:border-r border-wu-gray md:col-span-1 order-2 md:order-1 p-[20px] pt-[40px] md:p-[40px] grid place-content-center grid-cols-1">
+  
+  <h1 class="text-[30px] md:text-[36px] mb-4 font-sans leading-[43px]">{{ plain_title }}</h1>
+  <div class="font-serif text-[16px] md:text-[16px] leading-[24px] pb-5 order-last md:order-none pt-[20px] sm:pt-[0]">
+    <p class="text-[12px] md:text-[14px] font-serif">Details</p>
+
+  {{ product.description }}</div>
+  <div class="py-2">
+  <p class="text-[12px] md:text-[14px] font-serif">Color</p>
+  {% assign colors = "red, green, blue, turquoise, yellow, black, white, sky, crimson, denim" | split: ", " %}
+  <p class="font-sans text-[20px] md:text-[20px] tracking-wider">
+  {% for col in colors %}
+      {% assign col_hand = product.handle|replace: base_col, col%}
+      {% if all_products[col_hand].handle != "" %}
+      <a href="{{ all_products[col_hand].url }}" class="inline-block mr-2 border-b-2 border-transparent hover:border-current hover:border-solid {%if base_col == col %} border-dashed !border-current{%endif%}">{{col | capitalize}}</a>
+      {% endif %}
+  {%endfor%}
+  </p>
+  </div>
+
+  <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" >
+    <div class="py-2">
+
+    <p class="text-[12px] md:text-[14px] font-serif">Size</p>
+    <p class="font-sans text-[20px] md:text-[20px] md:leading-loose tracking-wider">
+    {% for variant in product.variants %}
+    {% if variant.available %}
+      <input type="radio" name="id" id="{{ variant.id }}" value="{{ variant.id }}" class="hidden" {% if variant == product.selected_or_first_available_variant%} checked{%endif%}>
+      <label class="inline-block mr-2 mb-2" for="{{ variant.id }}">{{ variant.title }}</label>
+        
+    {% else %}
+      <input type="radio" name="id" value="{{ variant.id }}" disabled  class="hidden">
+      <label class="inline-block mr-2 mb-2 line-through text-wu-gray" for="{{ variant.id }}">{{ variant.title }}</label>
+    {% endif %}
+  {% endfor %}
+    </p>
+
+    </div>
+    <div class="pt-6">
+      <div class="flex items-baseline justify-start">
+        <span class="font-sans text-[20px]">{{ current_variant.price | money_without_trailing_zeros }}</span>
+        <button x-data @click.prevent="$store.Cart.addItemFromForm($el.form) && $nextTick(()=>{$dispatch('open-menu',{open:true})})" 
+          class="rounded-full w-2/3 flex-grow sm:flex-grow-0 sm:w-auto ml-6 px-6 pt-1 text-[20px] tracking-wider
+          border-2 border-wu-blue bg-wu-blue text-wu-white hover:bg-wu-white hover:text-wu-blue" type="submit" name="add" id="AddToCart" {% unless product.available %} disabled{% endunless %}>{% if product.available %}Add to cart{% else %}Sorry, sold out{% endif %}</button>
+        </div>
+    </div>
+  </form>
+
+
+
+  <div x-data="sizeModal()" class="order-last md:absolute md:bottom-0">
+    <p class="py-2 -ml-1 md:-ml-2">
+      <button @keyup.escape.window="open=false" @click.prevent="open = true; size = true; care = false" class="{% unless product.metafields.wagner.size_chart %}hidden {%endunless%} px-1 md:px-2 py-1 font-sans">
+        <span class="border-b-2 border-transparent hover:border-current text-[20px]">Size Chart</span>
+      </button>
+      <button @keyup.escape.window="open=false" @click.prevent="open = true; size = false; care = true" class="{% unless product.metafields.descriptors.care_guide %}hidden {%endunless%} px-1 md:px-2 py-1 font-sans">
+        <span class="border-b-2 border-transparent hover:border-current text-[20px]">Care Instructions</span>
+      </button>
+    </p>
+
+    <div x-cloak x-show="open" @scroll.window.stop="true" 
+    class="z-50 fixed inset-0 flex items-center justify-center" style="background-color: rgba(0,0,0,.0);">
+
+      <div @click.outside="open=false" class="text-left bg-wu-gray isolate overflow-scroll h-full w-full md:h-auto  md:max-w-[700px] p-[20px] md:p-[40px] font-serif text-wu-blue">
+        <div class="flex justify-between align-text-top pb-4">
+          <h1 class="font-sans text-[30px] lg:text-[36px] uppercase">
+            <span x-show="size">Size Chart</span>
+            <span x-show="care">Care Instructions</span> 
+          </h1>
+          <button @click.prevent="open = false" class="text-[20px] font-sans"><span class="border-b-2 border-transparent hover:border-current">Close</span></button>
+        </div>
+
+       <div x-show="care">
+          <p class="py-0 text-[14px]">{{product.metafields.descriptors.care_guide | newline_to_br }}</p>
+        </div> 
+
+        <div x-show="size">
+          
+        <p class="w-full border-b-2 border-dashed py-2 border-current text-[12px] lg:text-[14px]">Product title</p>
+        <p class="font-sans text-[20px]  py-[20px]">{{plain_title}}</p>
+        <p class="py-0 text-[14px]">{{product.metafields.wagner.size_chart_caption | newline_to_br}}</p>
+        {%liquid 
+          assign size_lines = product.metafields.wagner.size_chart| newline_to_br| strip_newlines | split: "<br />"
+        %}
+        
+        <table class="w-full">
+          {% for line in size_lines %}
+            {% if forloop.first %}
+              {% assign size_chart_classes = "text-[12px] lg:text-[14px] pt-[30px]" %}
+            {% else %}
+              {% assign size_chart_classes = "text-[20px] font-sans tracking-wide" %}
+            {% endif %}
+            {% assign cells = line | split: ";" %}
+            <tr>
+            {% for cell in cells %}
+              <td class="border-b border-dashed border-current py-[10px] pr-[10px] mt-[3px] {{size_chart_classes}} {% if forloop.last %} xtext-right {% endif %}">{{cell | strip | replace: ' cm', ''}}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>

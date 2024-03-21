@@ -1,0 +1,64 @@
+{% paginate blog.articles by 20 %}
+
+<section class="bg-wu-gray grid grid-flow-row text-wu-blue">
+  <div class="grid sm:grid-cols-2">
+    <div class="p-[20px] md:p-[40px]">
+      <h1 class="uppercase text-[30px] tracking-[0.2em] pb-2">{{ pages[blog.handle].title }}</h1>
+      <div class="blog-description font-serif text-[16px] lg:text-[18px] leading-[23px] md:leading-[27px] space-y-4">
+      {% if pages[blog.handle] %}{{ pages[blog.handle].content | | remove: '<meta charset="utf-8">' }}{% endif %}
+      </div>
+    </div>
+    <div class="bg-wu-red aspect-h-3 aspect-w-3">
+      {{ pages[blog.handle].metafields.custom.featured_image 
+        | image_url: width: 3600 , height: 3600, crop: 'center'
+        | image_tag: 
+          class: 'transition-opacity duration-300 opacity-0 object-cover w-full',
+          sizes: '(min-width: 768px) 50vw, 100vw',
+          prefetch: true,
+          onload: 'this.classList.remove("opacity-0")'
+      }}
+    </div>    
+
+  </div>
+
+{% for article in blog.articles | sort: 'published_at' %}
+  {% assign article_content_test = article.content | strip_html | replace: '&nbsp;', '' | strip %}
+  {% if article_content_test == '' and article.image %} 
+  {% comment %} IMAGE ONLY {% endcomment %}
+  <article class="border-t border-wu-nav grid  {% if article.image %} sm:grid-cols-3 {% endif %}">
+    <div class="grid w-full aspect-w-2 aspect-h-1 col-span-3">
+      {{ article 
+        | image_url: width: 3600
+        | image_tag: 
+          class: 'transition-opacity duration-300 opacity-0 object-cover w-full',
+          sizes: '(min-width: 768px) 50vw, 100vw',
+          loading: 'lazy',
+          onload: 'this.classList.remove("opacity-0")'
+      }}
+    </div>
+  </article> 
+  {% else %}
+
+  <article class="border-t border-wu-nav grid  {% if article.image %} md:grid-cols-3 {% endif %}">
+    {% if article.image %}
+    <div class="w-full aspect-w-2 aspect-h-1 col-span-2">
+      <img class="object-cover w-full" src="{{ article.image.src | image_url: height: 1600 }}">
+    </div>
+    {% endif %}
+    <div class="content p-[20px] md:p-[40px] min-h-[30vh]">
+      <h2 class="text-[30px] tracking-[0.2em] uppercase pb-2">{{ article.title }}</h2>
+      <div class="font-serif text-[16px] lg:text-[18px] leading-[23px] md:leading-[27px] space-y-4 {% unless article.image %} md:columns-3 md:column-auto{% endunless %}">
+        {{ article.content | remove: '<meta charset="utf-8">' | remove: '<p>' | remove: '</p>' }}
+      </div>
+    </div>
+  </article>
+  {% endif %}
+{% endfor %}
+
+{% if paginate.pages > 1 %}
+  {{ paginate | default_pagination }}
+{% endif %}
+
+</section>
+
+{% endpaginate %}

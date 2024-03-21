@@ -1,0 +1,152 @@
+{% liquid 
+  assign current_variant = product.selected_or_first_available_variant
+  assign featured_image = current_variant.featured_image | default: product.featured_image
+  assign title_color = product.title | split: " " | last
+  assign plain_title = product.title | remove: title_color | strip
+  assign base_col = product.handle | split: "-" | last
+  assign txclass = "text-wu-white"
+  assign btbgclass = "bg-wu-white"
+  case base_col
+  when "red"
+    assign bgclass = "bg-wu-red"
+    assign bttxclass = "text-wu-red"
+    assign imgbgclass = "bg-wu-yellow"
+  when "green"
+    assign bgclass = "bg-wu-green"
+    assign bttxclass = "text-wu-green"
+    assign imgbgclass = "bg-wu-red"
+  when "blue"
+    assign bgclass = "bg-wu-blue"
+    assign bttxclass = "text-wu-blue"
+    assign imgbgclass = "bg-wu-yellow"
+  when "turquoise"
+    assign bgclass = "bg-wu-turquoise"
+    assign bttxclass = "text-wu-turquoise"
+    assign imgbgclass = "bg-wu-red"
+  when "yellow"
+    assign bgclass = "bg-wu-yellow"
+    assign btbgclass = "bg-wu-blue"
+    assign imgbgclass = "bg-wu-blue"
+    assign txclass = "text-wu-blue"
+    assign bttxclass = "text-wu-yellow"
+  when "black"
+    assign bgclass = "bg-wu-yellow"
+    assign btbgclass = "bg-wu-blue"
+    assign imgbgclass = "bg-wu-blue"
+    assign txclass = "text-wu-blue"
+    assign bttxclass = "text-wu-yellow"
+  when "white"
+    assign bgclass = "bg-wu-yellow"
+    assign btbgclass = "bg-wu-blue"
+    assign imgbgclass = "bg-wu-blue"
+    assign txclass = "text-wu-blue"
+    assign bttxclass = "text-wu-yellow"
+  endcase
+
+  %}
+
+
+<div class="grid md:grid-cols-3" style="--base-col:{% unless base_col == 'white' %}{{base_col}}{% endunless %};">
+
+  <div class="md:col-span-2 order-1 md:order-2 relative">
+    <div class="md:h-[calc(100vh-70px)] overscroll-y-contain overflow-y-scroll flex flex-col">
+    {% for image in product.images %}{% unless image.src contains "_grid."  or image.src contains "_gridhover." or image.src contains "_color." or image.src contains "_Illustration." %}
+      <div class="w-full max-h-full flex-shrink-0 self-center justify-self-center xcontrast-color:{{ base_col }} {{ imgbgclass }}">
+        <img 
+          class="object-contain p-[20px] md:p-[20px] w-auto max-h-full m-auto" 
+          srcset="{% render 'attr-srcset' , image: image, widths: "400,600,800,1000,1200,1600,2400,3200" %}"  
+          sizes="(min-width: 768px) 60vw, 95vw" 
+          src="{{ image.src | img_url: '100x' }}" width="{{image.width}}" height="{{ image.height }}" alt="{{ image.alt | escape }}" >
+      </div>
+    {% endunless %}{% endfor %}
+    </div>
+  </div>
+  
+
+  <div class="{{ bgclass }} {{ txclass }} md:col-span-1 order-2 md:order-1 p-[20px] md:p-[40px] xtext-white xtext-contrasting grid place-content-center grid-cols-1">
+  
+    <h1 class="text-[30px] lg:text-[36px] mb-4 font-sans">{{ plain_title }}</h1>
+    <div class="font-serif text-[16px] lg:text-[18px] leading-7 pb-5 order-last md:order-none">
+      <p class="text-[12px] lg:text-[14px] font-serif">Details</p>
+
+    {{ product.description }}</div>
+    <div class="py-2">
+    <p class="text-[12px] lg:text-[14px] font-serif">Color</p>
+    {% assign colors = "red, green, blue, turquoise, yellow, black, white" | split: ", " %}
+    <p class="font-sans">
+    {% for col in colors %}
+        {% assign col_hand = product.handle|replace: base_col, col%}
+        {% if all_products[col_hand].handle != "" %}
+        <a href="{{ all_products[col_hand].url }}" class="inline-block mr-2 {%if base_col == col %} border-b-2 border-dashed border-current{%endif%}">{{col | capitalize}}</a>
+        {% endif %}
+    {%endfor%}
+    </p>
+    </div>
+
+    <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" >
+      <div class="py-2">
+
+      <p class="text-[12px] lg:text-[14px] font-serif">Size</p>
+      <p class="font-sans">
+      {% for variant in product.variants %}
+      {% if variant.available %}
+        <input type="radio" name="id" id="{{ variant.id }}" value="{{ variant.id }}" class="hidden" {% if variant == product.selected_or_first_available_variant%} checked{%endif%}>
+        <label class="inline-block mr-2 " for="{{ variant.id }}">{{ variant.title }}</label>
+          
+      {% else %}
+        <input type="radio" name="id" value="{{ variant.id }}" disabled  class="hidden">
+        <label class="inline-block mr-2 " for="{{ variant.id }}">{{ variant.title }}</label>
+      {% endif %}
+    {% endfor %}
+      </p>
+
+      </div>
+      <div class="pt-6">
+        <p>
+          <span class="font-sans">{{ current_variant.price | money }}</span>
+          <button x-data @click.prevent="$store.Cart.addItemFromForm($el.form) && $nextTick(()=>{$dispatch('open-menu',{open:true})})" 
+            class="rounded-full mx-6 px-6 pt-1 text-[20px] tracking-wider {{btbgclass}} {{bttxclass}}" type="submit" name="add" id="AddToCart">Add To Cart</button>
+        </p>
+      </div>
+    </form>
+
+    <div x-data="sizeModal()" class="order-last md:absolute md:bottom-0">
+      <p class="py-2 -ml-1 md:-ml-2">
+        <button @keyup.escape.window="open=false" @click.prevent="open = true" class="{% unless product.metafields.wagner.size_chart %}hidden {%endunless%} px-1 md:px-2 py-1 opacity-75 font-sans">Size Chart</button>
+      </p>
+
+      <div x-cloak x-show="open" @scroll.window.stop="true" 
+      class="fixed inset-0 flex items-center justify-center" style="background-color: rgba(0,0,0,.0);">
+
+        <div @click.outside="open=false" class="text-left bg-wu-brown isolate overflow-scroll h-full w-full md:h-auto  md:max-w-[700px] p-[20px] md:p-[40px] font-serif text-wu-blue">
+          <div class="flex justify-between align-text-top pb-4">
+            <h1 class="font-sans text-[30px] lg:text-[36px] uppercase">Size chart</h1>
+            <button @click.prevent="open = false" class="text-[20px] font-sans">Close</button>
+          </div>
+
+          <p class="w-full border-b-2 border-dashed py-2 border-current text-[16px] lg:text-[14px]">Product title</p>
+          <p class="font-sans text-xl py-2">{{plain_title}}</p>
+          <p class="py-2 text-[20px]">{{product.metafields.wagner.size_chart_caption}}</p>
+          {%liquid 
+            assign size_lines = product.metafields.wagner.size_chart| newline_to_br| strip_newlines | split: "<br />"
+          %}
+          <div class="grid grid-cols-3 pt-8">
+            {% for line in size_lines %}
+              {% if forloop.first %}
+                {% assign size_chart_classes = "text-[16px] lg:text-[14px]" %}
+              {% else %}
+                {% assign size_chart_classes = "text-[20px] font-sans tracking-wide" %}
+              {% endif %}
+              {% assign cells = line | split: ";" %}
+              {% for cell in cells %}
+                <div class="border-b border-dashed border-current py-4 pr-2 mt-[3px] {{size_chart_classes}}">{{cell | strip}}</div>
+              {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

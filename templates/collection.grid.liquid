@@ -1,0 +1,121 @@
+<section class="grid md:grid-cols-4 m-auto gap-[2px] bg-wu-white">
+  {% for product in collection.products limit: 48 %}
+    {% assign remainder = forloop.length | modulo: 3 %}
+    {% assign base_col = product.handle | split: "-" | last %}
+    {% liquid 
+      assign bgclass = "bg-wu-blue"
+      assign txinv = "text-wu-white"
+      assign txclass = "text-wu-blue"
+
+      case base_col
+      when "red"
+        assign bgclass = "bg-wu-red"
+        assign txclass = "text-wu-red"
+      when "crimson"
+        assign bgclass = "bg-wu-crimson"
+        assign txclass = "text-wu-crimson"
+      when "green"
+        assign bgclass = "bg-wu-green"
+        assign txclass = "text-wu-green"
+      when "blue"
+        assign bgclass = "bg-wu-blue"
+        assign txclass = "text-wu-blue"
+      when "sky"
+        assign bgclass = "bg-wu-sky"
+        assign txclass = "text-wu-sky"
+      when "denim"
+        assign bgclass = "bg-wu-denim"
+        assign txclass = "text-wu-denim"
+      when "turquoise"
+        assign bgclass = "bg-wu-green"
+        assign txclass = "text-wu-turquoise"
+      when "yellow"
+        assign bgclass = "bg-wu-green"
+        assign txclass = "text-wu-yellow"
+      when "black"
+        assign bgclass = "bg-wu-blue"
+        assign txclass = "text-wu-black"
+      when "white"
+        assign bgclass = "bg-wu-red"
+        assign txinv = "text-wu-black"
+        assign txclass = "text-wu-white"
+      endcase
+      %}
+
+        {% liquid 
+          assign xx_bgclass = "bg-wu-blue"
+          assign txinv = "text-wu-white"
+          assign txclass = "text-wu-white"
+
+          case base_col
+          when "white"
+            assign txclass = "text-wu-black"
+            assign borderclass = "border-wu"
+          endcase
+
+          assign xxxbgclass = "bg-wu-white"
+      %}
+  
+
+      <div class="grid relative group">
+      {%liquid 
+        assign front_image = product.featured_image
+        assign hover_image = product.featured_image
+        for image in product.images 
+          if image.src contains "_front."
+            assign front_image = image
+          elsif image.src contains "_hover."
+            assign hover_image = image
+          endif
+        endfor
+      %}
+      {% assign title_color = product.title | split: " " | last %}
+      {% assign plain_title = product.title | remove: title_color | strip %}
+    
+      <a href="{{ product.url | within: collection }}" class="w-full block relative">
+
+        <div class="w-full aspect-w-4 aspect-h-5 ">
+          <div class="block w-100 h-100 absolute top-0 left-0 border border-white {{bgclass}} animate-pulse duration-100"> </div>
+
+          {{ front_image | image_url: width: 1200, crop: 'center' | image_tag: 
+          sizes: '(min-width: 768px) 33vw, (min-width: 1536px) 25vw, 100vw', 
+          class: 'block opacity-0 md:group-hover:hidden object-cover xp-0 transition-opacity duration-1000', 
+          loading: 'lazy',
+          onload: 'this.classList.remove("opacity-0")'}}
+          {{ hover_image | image_url: width: 1200, crop: 'center' | image_tag: 
+          sizes: '(min-width: 768px) 33vw, (min-width: 1536px) 25vw, 100vw', 
+          class: 'opacity-0 hidden md:group-hover:block object-cover xp-0', 
+          onload: 'this.classList.remove("opacity-0")',
+          preload: true }}
+
+        </div>
+      </a>
+      <div class="
+        xtransition-opacity 
+        md:opacity-0 group-hover:opacity-100 
+        font-bold text-center 
+        absolute w-full bottom-[40px] {{ txclass }} bg-transparent xbg-{{ base_col }}">
+        <a class="pb-2 pt-3 px-4 h-[40px] text-wu-white x-text-wu-blue  drop-shadow-contrast text-[16px] lg:text-[20px]" href="{{ product.url | within: collection }}">{{ plain_title }}</a>
+      </div>
+
+    </div>
+  {% endfor %}
+
+  <script>
+    const dePad = (e) =>{
+      for(el of document.querySelectorAll('.pad:empty')){
+        if( el.clientHeight == 0 ) {
+          el.style.display='none';
+        }       
+      }
+    }
+    window.addEventListener('load',dePad)
+    var timeout;
+    window.addEventListener('resize', e => {
+      clearTimeout(timeout); timeout = setTimeout(dePad,250);
+    })
+  </script>
+  </section>
+
+
+  

@@ -1,0 +1,36 @@
+{
+  "name": "wu-mr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently -k npm:watch-*",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-tailwind": "tailwindcss -m --postcss -i ./src/css/tailwind.css -o ./assets/theme.css --watch",
+    "watch-theme": "theme watch --allow-live",
+    "watch-tailwind": "tailwindcss --postcss -i ./src/css/tailwind.css -o ./assets/theme.css --watch",
+    "open-theme": "theme open --hidepb"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@alpinejs/intersect": "^3.12.0",
+    "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@tailwindcss/forms": "^0.5.2",
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "@tailwindcss/typography": "^0.5.4",
+    "alpinejs": "^3.12.0",
+    "autoprefixer": "^10.4.14",
+    "concurrently": "^8.0.1",
+    "install": "^0.13.0",
+    "npm": "^9.6.0",
+    "postcss": "^8.4.16",
+    "postcss-import": "^15.1.0",
+    "postcss-preset-env": "^8.3.0",
+    "smoothscroll-polyfill": "^0.4.4",
+    "tailwindcss": "^3.3.1",
+    "tailwindcss-scroll-snap": "^1.1.0",
+    "webpack": "^5.77.0",
+    "webpack-cli": "^5.0.1"
+  }
+}
