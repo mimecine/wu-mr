@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- TEMPLATE IN USE: {{ template.name }}.{{ template.suffix }} -->
 <html>
 <head>
   <title>{{ shop.name }} </title>
@@ -7,9 +8,9 @@
   <meta name="description" content="{{ page_description | escape }}">
   <link rel="canonical" href="{{ canonical_url }}">
   {% assign menu_links = linklists.main-menu-left.links | concat: linklists.main-menu-right.links %}
-  {% for link in  menu_links %}
+  {% comment %} {% for link in  menu_links %}
     <link rel="prefetch" href="{{ link.url }}">
-  {% endfor %}
+  {% endfor %} {% endcomment %}
   {% if settings.favicon %}
   <link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 100, height: 100 }}">
   {% endif %}
@@ -24,7 +25,7 @@
   {{ 'application.js' | asset_url | script_tag }}
   {{ 'theme-cart.js' | asset_url | script_tag }}
   {{ 'smoothscroll.min.js' | asset_url | script_tag }}
-  {{ 'alpinejs.cdn.min.js' | asset_url | script_tag }}
+  <script src="{{ 'alpinejs.cdn.min.js' | asset_url }}" defer></script>
   
   {% comment %} <script defer src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> {% endcomment %}
