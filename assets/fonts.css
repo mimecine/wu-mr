@@ -1,23 +1,3 @@
-/* @font-face {
-    font-family: 'apercu-condensed';
-    src: url('apercu-condensed-medium.eot');
-    src: url('apercu-condensed-medium.eot?#iefix') format('embedded-opentype'),
-         url('apercu-condensed-medium.woff2') format('woff2'),
-         url('apercu-condensed-medium.woff') format('woff'),
-         url('apercu-condensed-medium.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'apercu-condensed';
-    src: url('apercu-condensed-bold.eot');
-    src: url('apercu-condensed-bold.eot?#iefix') format('embedded-opentype'),
-         url('apercu-condensed-bold.woff2') format('woff2'),
-         url('apercu-condensed-bold.woff') format('woff'),
-         url('apercu-condensed-bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-} */
 
 @font-face {
     font-family: 'gt-alpina';
