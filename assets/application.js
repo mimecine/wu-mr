@@ -154,3 +154,21 @@ function usd(cents) {
       .replace(/\.00$/, "")
   );
 }
+
+findFakeVariants = (title) => {
+  titleParts = title.split(" ");
+  titleParts.pop();
+  base_title = title.join(" ");
+  query = `
+    {
+      products(first: 10, query: "title:'${base_title}*'" ) {
+        edges {
+          node {
+            title
+            handle
+          }
+        }
+      }
+    }
+  `;
+};

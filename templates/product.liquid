@@ -4,70 +4,18 @@
   assign title_color = product.title | split: ' ' | last
   assign plain_title = product.title | remove: title_color | strip
   assign base_col = product.title | split: ' ' | last | downcase
-  assign txclass = 'text-wu-blue'
-  assign btbgclass = 'bg-wu-blue'
-  assign arrowclass = 'text-wu-white'
 
-  case base_col
-    when 'red'
-      assign bgclass = 'bg-wu-red'
-      assign bttxclass = 'text-wu-red'
-      assign imgbgclass = 'bg-wu-red'
-    when 'crimson'
-      assign bgclass = 'bg-wu-crimson'
-      assign bttxclass = 'text-wu-crimson'
-      assign imgbgclass = 'bg-wu-crimson'
-    when 'green'
-      assign bgclass = 'bg-wu-green'
-      assign bttxclass = 'text-wu-green'
-      assign imgbgclass = 'bg-wu-green'
-    when 'blue'
-      assign bgclass = 'bg-wu-blue'
-      assign bttxclass = 'text-wu-blue'
-      assign imgbgclass = 'bg-wu-blue-alt'
-    when 'sky'
-      assign bgclass = 'bg-wu-sky'
-      assign bttxclass = 'text-wu-sky'
-      assign imgbgclass = 'bg-wu-sky'
-    when 'denim'
-      assign bgclass = 'bg-wu-denim'
-      assign bttxclass = 'text-wu-denim'
-      assign imgbgclass = 'bg-wu-denim'
-    when 'turquoise'
-      assign bgclass = 'bg-wu-turquoise'
-      assign bttxclass = 'text-wu-turquoise'
-      assign imgbgclass = 'bg-wu-turquoise'
-    when 'yellow'
-      assign bgclass = 'bg-wu-yellow'
-      assign btbgclass = 'bg-wu-blue'
-      assign imgbgclass = 'bg-wu-yellow'
-      assign txclass = 'text-wu-blue'
-      assign bttxclass = 'text-wu-yellow'
-    when 'black'
-      assign bgclass = 'bg-wu-yellow'
-      assign btbgclass = 'bg-wu-blue'
-      assign imgbgclass = 'bg-wu-black'
-      assign txclass = 'text-wu-blue'
-      assign bttxclass = 'text-wu-yellow'
-    when 'white'
-      assign bgclass = 'bg-wu-yellow'
-      assign btbgclass = 'bg-wu-blue'
-      assign imgbgclass = 'bg-wu-white'
-      assign txclass = 'text-wu-blue'
-      assign bttxclass = 'text-wu-yellow'
-      assign arrowclass = 'text-wu-blue'
-  endcase
-
-  assign bgclass = 'bg-wu-white'
-  assign btbgclass = 'bg-wu-blue'
-  assign txclass = 'text-wu-blue'
-  assign bttxclass = 'text-wu-white'
+  assign colors = 'red, green, blue, turquoise, yellow, black, white, gray, sky, crimson, denim, eggplant, olive, navy, gold, stone, cream, sand, brown, striped' | split: ', '
 %}
+<script>
+  const products = {{ collection.products | json }};
+</script>
 
-<div class="grid md:grid-cols-3" style="--base-col:{% unless base_col == 'white' %}{{base_col}}{% endunless %};">
+<!-- COLOR: {{ product.metafields.custom.override_color | default: base_col }} -->
+<div class="grid md:grid-cols-3" style="--base-col: {% if product.metafields.custom.override_color %} {{product.metafields.custom.override_color}} {% else %} var( --{{base_col}} ) {% endif %}; --alt-col: var( --{{base_col}}-alt, white );">
   <div
-    class="md:col-span-2 order-1 md:order-2 relative h-[50vh] md:h-[calc(100vh-70px)] {{ imgbgclass }}"
-    x-data="{all_left:true,all_right:false,pos:1,itemlen:0}"
+    class="md:col-span-2 order-1 md:order-2 relative h-[50vh] md:h-[calc(100vh-70px)] bg-[var(--base-col)] text-[var(--alt-col)]"
+    x-data="{all_left:true, all_right:false, pos:1, itemlen:0, products: {{ collections['clothing'].products | json | escape }}}"
     x-init="$nextTick(()=>{itemlen=$refs.slider.children.length})"
   >
     <div
@@ -79,8 +27,8 @@
         {%- if media.media_type == 'image' -%}
           {%- unless media.src contains '_xIllustration.'
             or media.src contains '_xillustration.'
-            or media.src contains '_front.'
-            or media.src contains '_bycol.'
+            or media.src contains 'X_front.'
+            or media.src contains 'X_bycol.'
           -%}
             <div class="w-full md:w-full h-[50vh] md:h-[calc(100vh-70px)] snap-center flex-shrink-0 relative">
               {{
@@ -104,7 +52,7 @@
             {{
               media
               | video_tag:
-                autoplay: true,
+                autoplay: false,
                 loop: true,
                 controls: false,
                 muted: false,
@@ -114,7 +62,7 @@
             <div class="absolute z-10 inset-20 grid place-items-center text-7xl">
               <button
                 @click.stop="if(vid.paused){ vid.play(); } else { vid.pause(); } playing=!vid.paused"
-                class="h-full w-full {{ arrowclass }} transition-opacity active:bg-transparent active:ring-0"
+                class="h-full w-full transition-opacity active:bg-transparent active:ring-0"
                 :class="{'opacity-0': playing}"
               >
                 <svg class="fill-current h-full w-full opacity-90 rotate-180">
@@ -128,7 +76,7 @@
     </div>
 
     <button
-      class="absolute top-[calc(50%-1.25rem)] left-0 p-4 {{ arrowclass }}"
+      class="absolute top-[calc(50%-1.25rem)] left-0 p-4 x{{ arrowclass }}"
       @click.prevent="$refs.slider.scrollBy({left:-$refs.slider.clientWidth,behavior:'smooth'}); $dispatch('vpause')"
       @keyup.left.window="$refs.slider.scrollBy({left:-$refs.slider.clientWidth,behavior:'smooth'}); $dispatch('vpause')"
       :class="{'opacity-25': all_left }"
@@ -139,7 +87,7 @@
     </button>
 
     <button
-      class="absolute top-[calc(50%-1.25rem)] right-0 p-4 {{ arrowclass }}"
+      class="absolute top-[calc(50%-1.25rem)] right-0 p-4 x{{ arrowclass }}"
       @press.prevent=""
       @click.prevent="$refs.slider.scrollBy({left:$refs.slider.clientWidth,behavior:'smooth'}); $dispatch('vpause')"
       @keyup.right.window="$refs.slider.scrollBy({left:$refs.slider.clientWidth,behavior:'smooth'}); $dispatch('vpause')"
@@ -149,7 +97,7 @@
         <use href="#arrow-left"></use>
       </svg>
     </button>
-    <span class="absolute bottom-[10px] left-[20px] sm:text-[20px] {{ arrowclass }}" x-text="`${pos}/${itemlen}`"></span>
+    <span class="absolute bottom-[10px] left-[20px] sm:text-[20px] x{{ arrowclass }}" x-text="`${pos}/${itemlen}`"></span>
   </div>
 
   <div class="{{ bgclass }} {{ txclass }} md:border-r border-wu-gray md:col-span-1 order-2 md:order-1 p-[20px] pt-[40px] md:p-[40px] grid place-content-center grid-cols-1">
@@ -161,7 +109,6 @@
     </div>
     <div class="py-2">
       <p class="text-[12px] md:text-[14px] font-serif">Color</p>
-      {% assign colors = 'red, green, blue, turquoise, yellow, black, white, sky, crimson, denim' | split: ', ' %}
       <p class="font-sans text-[20px] md:text-[20px] tracking-wider">
         {% for col in colors %}
           {% assign col_hand = product.handle | replace: base_col, col %}
@@ -197,9 +144,7 @@
 
             {% else %}
               <input type="radio" name="id" value="{{ variant.id }}" disabled class="hidden">
-              <label class="inline-block mr-2 mb-2 line-through text-wu-gray" for="{{ variant.id }}">
-                {{- variant.title -}}
-              </label>
+              <label class="inline-block mr-2 mb-2 line-through opacity-50 pointer-events-none" for="{{ variant.id }}">{{ variant.title }}</label>
             {% endif %}
           {% endfor %}
         </p>

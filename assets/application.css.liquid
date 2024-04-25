@@ -3,14 +3,33 @@
     --main-bg-color: {{ settings.main_bg_color | default:"var(--nav)" }};
     --text: {{ settings.color_text | default:"var(--white)" }};
     --nav: {{ settings.color_nav | default:"#2000CD" }};
+
     --red: {{ settings.color_red | default:"#DD343B" }};
     --green: {{ settings.color_green | default:"#009444" }};
     --blue: {{ settings.color_blue | default:"#2000CD" }};
-    --blue-alt: {{ settings.color_blue_alt | default:"#2F31B5" }};
+    --denim: {{ settings.color_denim | default:"#102852" }};
     --yellow: {{ settings.color_yellow | default:"#FBCC03" }};
     --turquoise: {{ settings.color_turquoise | default:"#00A0F8" }};
     --brown: {{ settings.color_brown | default:"#D6C8AB" }};
     --gray: {{ settings.color_gray | default:"#BBBBBB" }};
-    --white: {{ settings.color_white | default:"#FFFFFF" }};
     --black: {{ settings.color_black | default:"#000000" }};
+    --sky: {{ settings.color_sky | default:"#9DC1E7" }};
+
+    --eggplant: {{ settings.color_eggplant | default:"#3F2515" }};
+    --olive: {{ settings.color_olive | default:"#6E7E5A"}};
+    --navy: {{ settings.color_navy | default:"#1D3557"}};
+    --gold: {{ settings.color_gold | default:"#B78250"}};
+    --crimson: {{ settings.color_crimson | default:"#8B2137"}};    
+    --stone:  {{ settings.color_stone | default:"#A39A84"}};
+    --stone-alt: var(--text);
+    --cream:  {{ settings.color_cream | default:"#F1EFE0"}};
+    --cream-alt: var(--text);
+    --sand: {{ settings.color_sand | default:"#E2D4C2"}};
+
+    --white: {{ settings.color_white | default:"#FFFFFF" }};
+    --white-alt: var(--text);
+
+
+    --striped: linear-gradient(to right, var(--navy) 50%, var(--cream) 50%);
+
 }

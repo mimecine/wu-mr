@@ -22,13 +22,13 @@
     "name": "Colors",
     "settings": [
       {
-        "label": "WU Main",
+        "label": "A.B. Main Color",
         "id": "color_nav",
         "type": "color",
         "default": "#2000CD"
       },
       {
-        "label": "WU Text",
+        "label": "A.B. Text Color",
         "id": "color_text",
         "type": "color",
         "default": "#FFFFFF"
@@ -74,6 +74,54 @@
         "id": "color_brown",
         "type": "color",
         "default": "#D6C8AB"
+      },
+      {
+        "label": "Eggplant",
+        "id": "color_eggplant",
+        "type": "color",
+        "default": "#3F2515"
+      },
+      {
+        "label": "Olive",
+        "id": "color_olive",
+        "type": "color",
+        "default": "#6E7E5A"
+      },
+      {
+        "label": "Navy",
+        "id": "color_navy",
+        "type": "color",
+        "default": "#1D3557"
+      },
+      {
+        "label": "Gold",
+        "id": "color_gold",
+        "type": "color",
+        "default": "#B78250"
+      },
+      {
+        "label": "Crimson",
+        "id": "color_crimson",
+        "type": "color",
+        "default": "#8B2137"
+      },
+      {
+        "label": "Stone",
+        "id": "color_stone",
+        "type": "color",
+        "default": "#A39A84"
+      },
+      {
+        "label": "Cream",
+        "id": "color_cream",
+        "type": "color",
+        "default": "#F1EFE0"
+      },
+      {
+        "label": "Sand",
+        "id": "color_sand",
+        "type": "color",
+        "default": "#E2D4C2"
       },
       {
         "label": "Gray",

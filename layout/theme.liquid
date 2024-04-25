@@ -1,43 +1,48 @@
 <!doctype html>
-<!-- TEMPLATE IN USE: {{ template.name }}.{{ template.suffix }} -->
-<html>
+<html class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
 <head>
   <title>{{ shop.name }} </title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="description" content="{{ page_description | escape }}">
   <link rel="canonical" href="{{ canonical_url }}">
-  {% assign menu_links = linklists.main-menu-left.links | concat: linklists.main-menu-right.links %}
-  {% comment %} {% for link in  menu_links %}
-    <link rel="prefetch" href="{{ link.url }}">
-  {% endfor %} {% endcomment %}
+  
   {% if settings.favicon %}
   <link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 100, height: 100 }}">
   {% endif %}
 <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-  <style>
-    [x-cloak]{display:none !important;}
-  </style>
-  {{ content_for_header }} <!-- Header hook for plugins -->
-  {{ 'theme.css' | asset_url | stylesheet_tag }}
-  {{ 'fonts.css' | asset_url | stylesheet_tag }}
-  {{ 'application.css' | asset_url | stylesheet_tag }}
-  {{ 'application.js' | asset_url | script_tag }}
-  {{ 'theme-cart.js' | asset_url | script_tag }}
-  {{ 'smoothscroll.min.js' | asset_url | script_tag }}
-  <script src="{{ 'alpinejs.cdn.min.js' | asset_url }}" defer></script>
-  
-  {% comment %} <script defer src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> {% endcomment %}
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3GNZJH3YQV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<style>
+  [x-cloak]{display:none !important;}
+</style>
+{{ content_for_header }}
+{{ 'theme.css' | asset_url | stylesheet_tag }}
+{{ 'fonts.css' | asset_url | stylesheet_tag }}
+{{ 'application.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'application.js' | asset_url }}"></script>
+<script src="{{ 'theme-cart.js' | asset_url }}"></script>
+<script src="{{ 'alpinejs.cdn.min.js' | asset_url }}" defer></script>
+{% comment %} <script src="https://unpkg.com/@shopify/storefront-api-client@0.2.3/dist/umd/storefront-api-client.min.js"></script>
+<script type="module">
 
-  gtag('config', 'G-3GNZJH3YQV');
-</script>
+(async () => {
+  const shopQuery = `
+  query shop {
+    shop {
+      name
+      id
+    }
+  }
+ `;
+const client = ShopifyStorefrontAPIClient.createStorefrontApiClient({
+  storeDomain: 'http://waguni.myshopify.com',
+  apiVersion: '2024-04',
+  publicAccessToken: '18daef5bed5b6401d2fdb83671dee4a2',
+  customFetchApi: fetch,
+});
+const {data, errors, extensions} = await client.request(shopQuery);
+console.log(data,errors,extensions); 
+})()
+</script> {% endcomment %}
 </head>
 
 <body class="template-{{ template.name }} suffix-{{ template.suffix }} tag-{{ product.tags | join: ' tag-' }} min-h-screen grid grid-pancake font-sans">
