@@ -143,6 +143,7 @@
               <label class="inline-block mr-2 mb-2" for="{{ variant.id }}">{{ variant.title }}</label>
 
             {% else %}
+              {% assign unavailables = true %}
               <input type="radio" name="id" value="{{ variant.id }}" disabled class="hidden">
               <label class="inline-block mr-2 mb-2 line-through opacity-50 pointer-events-none" for="{{ variant.id }}">{{ variant.title }}</label>
             {% endif %}
@@ -172,7 +173,15 @@
       </div>
     </form>
 
+
     <div x-data="sizeModal()" class="order-last md:absolute md:bottom-0">
+
+      {% if unavailables %}
+        <div class="text-sm text-wu-blue w-80 md:w-60 hidden">
+          Email <a href="mailto:info@ab-uniform.com?subject={{ product.title }}" class="font-bold italic">info@ab-uniform.com</a> to get alerted for a missing size.
+        </div>
+      {% endif %}
+
       <p class="py-2 -ml-1 md:-ml-2">
         <button
           @keyup.escape.window="open=false"

@@ -987,6 +987,11 @@ footer {
   margin: auto;
 }
 
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .-ml-1 {
   margin-left: -0.25rem;
 }
@@ -1149,6 +1154,18 @@ footer {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-1\/5 {
+  width: 20%;
+}
+
+.w-60 {
+  width: 15rem;
+}
+
+.w-80 {
+  width: 20rem;
 }
 
 .max-w-\[600px\] {
@@ -1793,6 +1810,11 @@ footer {
   font-size: 60px;
 }
 
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
@@ -1812,6 +1834,10 @@ footer {
 
 .capitalize {
   text-transform: capitalize;
+}
+
+.italic {
+  font-style: italic;
 }
 
 .leading-\[23px\] {
@@ -1852,6 +1878,12 @@ footer {
 
 .text-current {
   color: currentColor;
+}
+
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgba(239, 68, 68, 1);
+  color: rgba(239, 68, 68, var(--tw-text-opacity));
 }
 
 .text-white {
@@ -2577,6 +2609,14 @@ input[type="radio"].hidden + label {
 
   .md\:w-full {
     width: 100%;
+  }
+
+  .md\:w-80 {
+    width: 20rem;
+  }
+
+  .md\:w-60 {
+    width: 15rem;
   }
 
   .md\:max-w-\[700px\] {
