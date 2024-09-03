@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.4.3 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.4 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -857,6 +857,12 @@ footer {
 
 /* example */
 
+.btn .thing {
+  --tw-text-opacity: 1;
+  color: rgba(74, 222, 128, 1);
+  color: rgba(74, 222, 128, var(--tw-text-opacity));
+}
+
 .pointer-events-none {
   pointer-events: none;
 }
@@ -987,11 +993,6 @@ footer {
   margin: auto;
 }
 
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .-ml-1 {
   margin-left: -0.25rem;
 }
@@ -1072,6 +1073,10 @@ footer {
   display: grid;
 }
 
+.contents {
+  display: contents;
+}
+
 .hidden {
   display: none;
 }
@@ -1148,24 +1153,16 @@ footer {
   width: 2rem;
 }
 
+.w-80 {
+  width: 20rem;
+}
+
 .w-full {
   width: 100%;
 }
 
 .w-screen {
   width: 100vw;
-}
-
-.w-1\/5 {
-  width: 20%;
-}
-
-.w-60 {
-  width: 15rem;
-}
-
-.w-80 {
-  width: 20rem;
 }
 
 .max-w-\[600px\] {
@@ -1880,12 +1877,6 @@ footer {
   color: currentColor;
 }
 
-.text-red-500 {
-  --tw-text-opacity: 1;
-  color: rgba(239, 68, 68, 1);
-  color: rgba(239, 68, 68, var(--tw-text-opacity));
-}
-
 .text-white {
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, 1);
@@ -1955,6 +1946,10 @@ footer {
 .text-wu-yellow {
   color: #FBCC03;
   color: var(--yellow,#FBCC03);
+}
+
+.underline {
+  text-decoration-line: underline;
 }
 
 .line-through {
@@ -2603,20 +2598,16 @@ input[type="radio"].hidden + label {
     height: auto;
   }
 
+  .md\:w-60 {
+    width: 15rem;
+  }
+
   .md\:w-\[67vw\] {
     width: 67vw;
   }
 
   .md\:w-full {
     width: 100%;
-  }
-
-  .md\:w-80 {
-    width: 20rem;
-  }
-
-  .md\:w-60 {
-    width: 15rem;
   }
 
   .md\:max-w-\[700px\] {
