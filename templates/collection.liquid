@@ -44,7 +44,9 @@
         md:opacity-0 group-hover:opacity-100 
         font-bold text-center 
         absolute w-full bottom-[40px] {{ txclass }} bg-transparent xbg-{{ base_col }}">
-        <a class="pb-2 pt-3 px-4 h-[40px] text-wu-white  drop-shadow-contrast text-[16px] lg:text-[20px]" href="{{ product.url | within: collection }}">{{ plain_title }}</a>
+        <a class="pb-2 pt-3 px-4 h-[40px] text-wu-white  drop-shadow-contrast text-[16px] lg:text-[20px]" href="{{ product.url | within: collection }}">{{ plain_title }}
+          {% comment %} <br><span class="text-[12px] lg:text-[16px]">{{ product.price | money_without_trailing_zeros }}</span> {% endcomment %}
+        </a>
       </div>
 
     </div>
