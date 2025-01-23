@@ -5,7 +5,7 @@
   assign plain_title = product.title | remove: title_color | strip
   assign base_col = product.title | split: ' ' | last | downcase
 
-  assign colors = 'red, green, blue, turquoise, yellow, black, white, gray, sky, crimson, denim, eggplant, olive, navy, gold, stone, cream, sand, brown, striped' | split: ', '
+  assign colors = 'red, green, blue, yellow, black, white, gray, sky, crimson, denim, purple, olive, navy, gold, stone, cream, sand, brown, striped, orange' | split: ', '
 %}
 <script>
   const products = {{ collection.products | json }};

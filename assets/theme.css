@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.4.4 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.10 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -857,10 +857,28 @@ footer {
 
 /* example */
 
-.btn .thing {
-  --tw-text-opacity: 1;
-  color: rgba(74, 222, 128, 1);
-  color: rgba(74, 222, 128, var(--tw-text-opacity));
+.tw-test .slide {
+  position: relative;
+  height: 100%;
+  max-height: 100%;
+  width: 100%;
+  scroll-snap-align: start;
+  border-width: 1px;
+  border-color: #00A0F8;
+  border-color: var(--turquoise,#00A0F8);
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+}
+
+.tw-test .slide:nth-child(1n) {
+  background-color: #FBCC03;
+  background-color: var(--yellow,#FBCC03);
+}
+
+.tw-test .slide:nth-child(2n) {
+  background-color: #23B085;
+  background-color: var(--green,#23B085);
 }
 
 .pointer-events-none {
@@ -1071,10 +1089,6 @@ footer {
 
 .grid {
   display: grid;
-}
-
-.contents {
-  display: contents;
 }
 
 .hidden {
@@ -1507,6 +1521,11 @@ footer {
 .bg-wu-nav {
   background-color: #2000CD;
   background-color: var(--nav,#2000CD);
+}
+
+.bg-wu-orange {
+  background-color: #ea6934;
+  background-color: var(--orange,#ea6934);
 }
 
 .bg-wu-red {
@@ -1948,10 +1967,6 @@ footer {
   color: var(--yellow,#FBCC03);
 }
 
-.underline {
-  text-decoration-line: underline;
-}
-
 .line-through {
   text-decoration-line: line-through;
 }
@@ -2362,6 +2377,51 @@ input[type="radio"].hidden + label {
   display: none !important;
 }
 
+.\*\:pointer-events-none > * {
+  pointer-events: none;
+}
+
+.\*\:absolute > * {
+  position: absolute;
+}
+
+.\*\:inset-0 > * {
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+.\*\:z-\[99\] > * {
+  z-index: 99;
+}
+
+.\*\:h-screen > * {
+  height: 100vh;
+}
+
+.\*\:w-screen > * {
+  width: 100vw;
+}
+
+.\*\:object-contain > * {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.\*\:object-center > * {
+  -o-object-position: center;
+     object-position: center;
+}
+
+.\*\:p-6 > * {
+  padding: 1.5rem;
+}
+
+.\*\:pt-\[226px\] > * {
+  padding-top: 226px;
+}
+
 .before\:absolute::before {
   content: var(--tw-content);
   position: absolute;
@@ -2436,9 +2496,9 @@ input[type="radio"].hidden + label {
   color: var(--red,#DD343B);
 }
 
-.hover\:text-wu-white:hover {
-  color: #FFFFFF;
-  color: var(--white,#FFFFFF);
+.hover\:text-wu-yellow:hover {
+  color: #FBCC03;
+  color: var(--yellow,#FBCC03);
 }
 
 .focus\:outline-none:focus {
@@ -2538,6 +2598,10 @@ input[type="radio"].hidden + label {
 
   .sm\:text-\[20px\] {
     font-size: 20px;
+  }
+
+  .\*\:sm\:pt-\[20vh\] > * {
+    padding-top: 20vh;
   }
 }
 
@@ -2732,6 +2796,14 @@ input[type="radio"].hidden + label {
 }
 
 @media (min-width: 1024px) {
+  .lg\:block {
+    display: block;
+  }
+
+  .lg\:hidden {
+    display: none;
+  }
+
   .lg\:h-\[26px\] {
     height: 26px;
   }

@@ -28,7 +28,8 @@ module.exports = {
         'wu-brown':'var(--brown,#D6C8AB)',
         'wu-gray':'var(--gray,#BBBBBB)',
         'wu-white':'var(--white,#FFFFFF)',
-        'wu-black':'var(--black,#000000)'
+        'wu-black':'var(--black,#000000)',
+        'wu-orange':'var(--orange,#ea6934)',
       },
       fontFamily:{
         sans:['erbar',...defaultTheme.fontFamily.sans],

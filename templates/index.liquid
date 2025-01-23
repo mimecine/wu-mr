@@ -1,42 +1,104 @@
 <section>
-  <div class="absolute w-screen h-screen inset-0 z-[99]  pointer-events-none">
-    {%- liquid
-      if settings.splash_mobile_video and settings.splash_mobile_desktop
-        assign media = settings.splash_mobile_video
-        echo media | video_tag: autoplay: true, loop: true, controls: false, muted: true, image_size: '3600x', class: 'block md:hidden object-cover w-screen h-screen'
+  <div class="hidden absolute xw-screen xh-screen inset-0 z-[99]  pointer-events-none">
+    {% comment %}
+      {%- liquid
+        if settings.splash_mobile_video and settings.splash_mobile_desktop
+          assign media = settings.splash_mobile_video
+          echo media | video_tag: autoplay: true, loop: true, controls: false, muted: true, image_size: '3600x', class: 'block md:hidden object-cover w-screen h-screen'
 
-        assign media = settings.splash_mobile_desktop
-        echo media | video_tag: autoplay: true, loop: true, controls: false, muted: true, image_size: '3600x', class: 'hidden md:block object-cover w-screen h-screen'
-      else
-        assign media = settings.mobile_splash
-        echo media | image_url: width: 3600 | image_tag: sizes: '100vw', class: 'grid md:hidden object-cover w-screen h-screen', preload: true
+          assign media = settings.splash_mobile_desktop
+          echo media | video_tag: autoplay: true, loop: true, controls: false, muted: true, image_size: '3600x', class: 'hidden md:block object-cover w-screen h-screen'
+        else
+          assign media = settings.mobile_splash
+          echo media | image_url: width: 3600 | image_tag: sizes: '100vw', class: 'grid md:hidden object-cover w-screen h-screen', preload: true
 
-        assign media = settings.desktop_splash
-        echo media | image_url: width: 3600 | image_tag: sizes: '100vw', class: 'hidden md:block object-cover w-screen h-screen', preload: true
-      endif
-    -%}
+          assign media = settings.desktop_splash
+          echo media | image_url: width: 3600 | image_tag: sizes: '100vw', class: 'hidden md:block object-cover w-screen h-screen', preload: true
+        endif
+      -%}
+    {% endcomment %}
   </div>
-  <div class="absolute w-screen h-screen inset-0 z-[100] text-wu-red uppercase text-2xl">
-    <div class="w-screen h-1/4 hidden sm:grid grid-cols-2 sm:grid-cols-3 place-items-center">
-      <a href="/collections/clothing" class="text-[36px] tracking-widest leading-none hover:text-wu-white">Shop</a>
 
-      <span class="leading-none main-logo text-wu-blue order-first sm:order-none col-span-2 sm:col-span-1">
-        <a href="/collections/clothing"><svg viewBox="0 0 171 27" fill="none" x-xmlns="http://www.w3.org/2000/svg" class="fill-current text-current h-[56px] lg:h-[84px]">
-          <use class="fill-current" href="#logo" />
-        </svg></a>
+  <div class="hidden *:absolute *:w-screen *:h-screen *:inset-0 *:z-[99] *:pointer-events-none *:object-contain *:object-center *:p-6 *:pt-[226px] *:sm:pt-[20vh]">
+    <img
+      src="{{ '00030028.jpg' | asset_img_url: '1000x' }}"
+      width="1000"
+      height="1000"
+      class="slide bg-wu-green"
+    >
+    <img
+      src="{{ '000006040032.jpg' | asset_img_url: '1000x' }}"
+      width="1000"
+      height="1000"
+      class="slide active bg-wu-red"
+    >
+    <img
+      src="{{ '00030017.jpg' | asset_img_url: '1000x' }}"
+      width="1000"
+      height="1000"
+      class="slide bg-wu-orange"
+    >
+    <img
+      src="{{ 'IMG_9206.jpg' | asset_img_url: '1000x' }}"
+      width="1000"
+      height="1000"
+      class="slide bg-wu-blue-alt"
+    >
+  </div>
+
+  <img src="{{ 'index_art_desktop.jpeg' | asset_img_url: '2500x' }}" width="2500" height="1000" class="hidden lg:block absolute w-screen h-screen inset-0 z-[100] object-cover">
+  <img src="{{ 'index_art_mobile.jpeg' | asset_img_url: '1000x' }}" width="1000" height="1000" class="lg:hidden absolute w-screen h-screen inset-0 z-[100] object-cover">
+
+  <div class="absolute w-screen h-screen inset-0 z-[100] text-wu-white uppercase text-2xl">
+    <div class="w-screen h-1/4 hidden sm:grid grid-cols-2 sm:grid-cols-3 place-items-center">
+      <a href="/collections/clothing" class="text-[36px] tracking-widest leading-none hover:text-wu-yellow">Shop</a>
+
+      <span class="leading-none main-logo text-wu-white order-first sm:order-none col-span-2 sm:col-span-1">
+        <a href="/collections/clothing">
+          <svg
+            viewBox="0 0 171 27"
+            fill="none"
+            x-xmlns="http://www.w3.org/2000/svg"
+            class="fill-current text-current h-[56px] lg:h-[84px] hover:text-wu-yellow"
+          >
+            <use class="fill-current" href="#logo" />
+          </svg>
+        </a>
       </span>
 
-      <a href="/blogs/bulletin" class="text-[36px] tracking-widest leading-none hover:text-wu-white">About</a>
+      <a href="/blogs/bulletin" class="text-[36px] tracking-widest leading-none hover:text-wu-yellow">About</a>
     </div>
 
-    <div class="w-full h-1/4 p-[20px] sm:hidden">
-      <svg class="w-full text-wu-blue">
+    <div class="w-full xh-[15vh] p-[20px] sm:hidden">
+      <svg class="w-full text-wu-white hover:text-wu-yellow ">
         <use class="fill-current" href="#logo" />
       </svg>
       <div class="flex justify-between text-wu-white text-[36px] tracking-widest leading-none">
-        <a href="/collections/clothing" class="hover:text-wu-blue">SHOP</a>
-        <a href="/blogs/bulletin" class="hover:text-wu-blue">ABOUT</a>
+        <a href="/collections/clothing" class="hover:text-wu-yellow">SHOP</a>
+        <a href="/blogs/bulletin" class="hover:text-wu-yellow">ABOUT</a>
       </div>
     </div>
   </div>
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const slides = document.querySelectorAll('.slide');
+    let index = 0;
+    let interval = setInterval(() => {
+      try {
+        slides.forEach((slide) => {slide.classList.remove('active');});
+        slides[index++%slides.length].classList.add('active');
+      } catch (e) {
+        console.log('error', e);
+      }
+      },2000);
+  });
+</script>
+<style>
+  .slide.active {
+    display: block;
+  }
+  .slide {
+    display: none;
+  }
+</style>
